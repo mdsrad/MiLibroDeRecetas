@@ -1,0 +1,27 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "usuario": "Marta",
+      "email": "marta@gmail.com"
+    }
+  ],
+  "recipes": [
+    {
+      "id": 1,
+      "title": "Tarta de queso",
+      "ingredientes":"queso, huevos, harina, azúcar",
+      "preparacion": "Mezaclamos todos los ingredientes en un recipiente...",
+      "tiempoPreparacion": 15,
+      "tiempoTotal": 55
+    },
+    {
+      "id": 2,
+      "title": "Bizcocho de naranja",
+      "ingredientes":"harina, yogourt, huevos, azucar",
+      "preparacion": "Mezaclamos todos los ingredientes en un recipiente...",
+      "tiempoPreparacion": 10,
+      "tiempoTotal": 50
+    }
+  ]
+}

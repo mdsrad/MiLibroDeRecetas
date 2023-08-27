@@ -7,6 +7,7 @@ import { LayoutPagesComponent } from './pages/layout-pages/layout-pages.componen
 import { ListPageComponent } from './pages/list-page/list-page.component';
 import { AddNewRecipeComponent } from './pages/add-new-recipe/add-new-recipe.component';
 import { SearchPageComponent } from './pages/search-page/search-page.component';
+import { MaterialModule } from '../material/material.module';
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import { SearchPageComponent } from './pages/search-page/search-page.component';
   imports: [
     CommonModule,
     RecipesRoutingModule,
+    MaterialModule,
   ]
 })
 export class RecipesModule { }
