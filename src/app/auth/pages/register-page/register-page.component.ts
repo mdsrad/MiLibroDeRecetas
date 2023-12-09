@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { User } from '../../interfaces';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   templateUrl: './register-page.component.html',
@@ -12,6 +14,9 @@ export class RegisterPageComponent {
   private fb = inject( FormBuilder );
   private authService = inject( AuthService );
   private router = inject( Router );
+  private user?: User;
+
+  constructor(private snackbar: MatSnackBar,){ }
 
   public myForm: FormGroup= this.fb.group({
     name:     ['', [ Validators.required ]],
@@ -19,23 +24,24 @@ export class RegisterPageComponent {
     password: ['', [ Validators.required, Validators.minLength(6) ]],
   })
 
-  // register(){
-  //   const { name, email, password } = this.myForm.value;
-  //   this.authService.register( name, email, password )
-  //   .subscribe({
-  //     next: () => this.router.navigateByUrl('/recipes'),
-  //     error: (message) => {
-  //       Swal.fire(
-  //         {
-  //           title: 'Error!',
-  //           text: message,
-  //           icon: 'warning',
-  //           confirmButtonText: 'Cerrar',
-  //           confirmButtonColor: '#FFC436',
-  //         });
-  //     }
-  //   })
-  //   //console.log( this.myForm.value );
-  // }
+  showSnackbar( message: string ): void{
+    this.snackbar.open( message, 'cerrar', {
+      duration: 5000,
+    })
+  }
 
+  get currentuser(): User{
+    const user = this.myForm.value as User;
+    return user;
+  }
+
+  register(){
+    this.authService.register( this.currentuser )
+      .subscribe( user => {
+        this.showSnackbar(`Se ha registrado correctamente!!!`);
+        this.router.navigateByUrl('recipes/login');
+      });
+      return;
+
+  }
 }

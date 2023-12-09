@@ -24,10 +24,6 @@ export class RecipesService {
     );
   }
 
-  getSuggestions( query: string): Observable<Recipe[]>{
-    return this.http.get<Recipe[]>(`${ this.baseUrl }/recipes?q=${ query }&_limit=12`);
-  }
-
   addRecipe( recipe: Recipe ): Observable<Recipe>{
     return this.http.post<Recipe>(`${ this.baseUrl }/recipes`, recipe );
   }
@@ -43,5 +39,9 @@ export class RecipesService {
         catchError( err => of(false)),
         map( resp => true)
       );
+  }
+
+  getSuggestions( query: string): Observable<Recipe[]>{
+    return this.http.get<Recipe[]>(`${ this.baseUrl }/recipes?q=${ query }&_limit=6`);
   }
 }

@@ -16,7 +16,7 @@ import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-
 })
 export class RecipePageComponent implements OnInit{
 
-  //public recipe?: Recipe;
+  public miRecipe?: Recipe;
   public todosIngredientes: Ingredientes [] = [];
 
   constructor(
@@ -51,9 +51,9 @@ export class RecipePageComponent implements OnInit{
     return recipe;
   }
 
-  get currentIngredients(): Ingredientes{
-    const Ingredientes = this.recipeForm.value as Ingredientes;
-    return Ingredientes;
+
+  get token () {
+    return (localStorage.getItem('token'));
   }
 
   ngOnInit(): void {
@@ -61,29 +61,14 @@ export class RecipePageComponent implements OnInit{
     .pipe(
       switchMap( ({ id }) => this.recipeService.getRecipeById( id ) ),
     ).subscribe( recipe => {
-
       if( !recipe ) {
         return this.router.navigateByUrl('/');
       }
+      this.miRecipe = recipe;
       this.recipeForm.reset( recipe );
       return;
     });
   }
-
-      //   this.recipe.ingrediente.split(', ').forEach(element => {
-      //     console.log(element);
-      //   });
-
-      //   this.recipe.cantidad.split(', ').forEach(element => {
-      //     console.log(element);
-      //   });
-
-      //   this.recipe.unidadMedida.split(', ').forEach(element => {
-      //     console.log(element);
-      //   });
-
-
-
 
   goBack():void{
     this.router.navigateByUrl('recipes/list')

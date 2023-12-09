@@ -4,10 +4,7 @@ export interface Recipe {
   id:                string;
   tipo:              string;
   title:             string;
-  //ingredientes:      [Ingredientes];
-  ingrediente:       string;
-  unidadMedida:      string;
-  cantidad:          string;
+  ingredientes:      Ingredientes[];
   preparacion:       string;
   coccion:           string;
   tiempoCoccion:     number;
@@ -21,5 +18,5 @@ export interface Recipe {
 export interface Ingredientes{
   nombre:            string;
   unidadMedida:      string;
-  cantidad?:         number;
+  cantidad?:         string;
 }

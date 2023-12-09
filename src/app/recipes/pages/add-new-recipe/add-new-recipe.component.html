@@ -1,10 +1,10 @@
 <h1>{{ currentRecipe.id ? 'Modifica' : 'Añade'}} tu receta</h1>
+<h3 style="color: red;" *ngIf=" currentRecipe.id "> Si modificar los ingredientes tienes que añadirlos todos de nuevo!</h3>
 
 
 <mat-divider class="mb-2"></mat-divider>
 
 <!-- ESTA ES LA CAJA DE LA IZQUIERDA -->
-
 <form action="" [formGroup]="recipeForm">
   <div class="grid">
     <div class="col-12">
@@ -77,6 +77,10 @@
               <mat-label>Tiempo de cocción en minutos</mat-label>
               <input matInput type="number" formControlName="tiempoCoccion">
             </mat-form-field>
+            <mat-form-field class="col-12">
+              <mat-label>Copia la url de tu imagen aquí...</mat-label>
+              <input matInput type="text" formControlName="alt_image">
+            </mat-form-field>
           </div>
         </mat-card-content>
       </mat-card>
@@ -87,7 +91,7 @@
 
 
     <div class="col-12 sm:col-6">
-      <mat-card style="height: 600px;">
+      <mat-card style="height: 625px;">
         <mat-card-content>
           <div class="grid p-2 mb-2">
             <mat-label>Ingredientes: </mat-label>
@@ -124,21 +128,17 @@
               </button>
             </mat-chip>
           </div>
-          <mat-form-field class="col-12">
-            <mat-label>Copia la url de tu imagen aquí...</mat-label>
-            <input matInput type="text" formControlName="alt_image">
-          </mat-form-field>
+          <div class="grid p-2" *ngIf="currentRecipe.id">
+            <mat-chip *ngFor="let ingr of miRecipe?.ingredientes"
+                (removed)="eliminarIngrediente(ingr.nombre)" class="m-2">
+                  {{ ingr.nombre }}, {{ ingr.cantidad }} {{ ingr.unidadMedida }}
+            </mat-chip>
+          </div>
+
+
           <img [src]="currentRecipe | recipeImage " alt="imagen del héroe" matCardImage width="250px">
         </mat-card-content>
       </mat-card>
     </div>
   </div>
 </form>
-
-<!-- <pre>
-  {{ currentRecipe |json }}
-</pre>
-
-<pre>
-  {{ todosIngredientes |json }}
-</pre> -->

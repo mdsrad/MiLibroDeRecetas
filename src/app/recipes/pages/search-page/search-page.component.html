@@ -1,3 +1,6 @@
+
+
+
 <div class="flex flex-column m-5" style="background-image: url('../../../../assets/images/fondo_5_dashboard.jpg'); height: 250px; border-radius: 5px;">
   <mat-form-field class="pt-5 mb-3 ml-6 flex flex-column col-11" style="margin-top: 60px;">
     <mat-label>Buscar...</mat-label>
@@ -6,23 +9,20 @@
       matInput
       [formControl]="searchInput"
       (input)="searchRecipe()"
-      [matAutocomplete]="auto"
-    />
+      [matAutocomplete]="auto"/>
 
-    <mat-autocomplete
-      autoActiveFirstOption
-      #auto="matAutocomplete"
-      (optionSelected)="onSelectedOption( $event )"
-    >
+    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="onSelectedOption( $event )">
       <mat-option *ngFor="let recipe of recipes" [value]="recipe">
         {{ recipe.title }}
       </mat-option>
-
-      <mat-option
-        *ngIf="recipes.length === 0 && searchInput.value && searchInput.value.length > 0"
-        value="">
+      <mat-option *ngIf="recipes.length === 0 && searchInput.value && searchInput.value.length > 0" value="">
         No se encontró nada con el término {{ searchInput.value }}
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>
+
+  <pre>
+    {{ selectedRecipe| json }}
+  </pre>
+
 </div>

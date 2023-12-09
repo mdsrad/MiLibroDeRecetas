@@ -11,36 +11,34 @@
 </ng-template>
 
 
-<div  *ngIf="currentRecipe; else divLoading" class="grid">
+<div  *ngIf="currentRecipe; else divLoading" class="grid m-5">
   <mat-card class="col-12 sm:col-6">
     <mat-card-header>
       <mat-card-title>{{ currentRecipe.title }}</mat-card-title>
       <mat-card-subtitle>
+        <br>
         Tipo de receta: {{ currentRecipe.tipo | titlecase }}
-        <br>
-        Tiempo de elaborado: {{ currentRecipe.tiempoElaboracion }}
-        <br>
-        Tiempo total: {{ currentRecipe.tiempoTotal }}
       </mat-card-subtitle>
     </mat-card-header>
 
     <mat-card-content class="mt-5">
       <p><strong>Ingredientes: </strong></p>
-      <mat-chip-listbox>
-        <!-- <mat-chip *ngFor="let name of currentRecipe.ingrediente.split(',')">
-          {{ name }}
-        </mat-chip> -->
-      </mat-chip-listbox>
-
+      <div class="grid p-4">
+        <mat-chip *ngFor="let ingrediente of miRecipe?.ingredientes" class="m-2">
+          {{ ingrediente.nombre }} {{ ingrediente.cantidad}} , {{ ingrediente.unidadMedida }}
+        </mat-chip>
+      </div>
       <mat-divider class="mt-5 mb-3"></mat-divider>
 
       <p><strong>Preparación: </strong></p>
       <p> {{currentRecipe.preparacion }} </p>
 
       <mat-divider class="mt-5 mb-3"></mat-divider>
-
-      <p><strong>Cocción: </strong></p>
-      <p> {{ currentRecipe.coccion }} a {{ currentRecipe.grados }}º durante {{ currentRecipe.tiempoCoccion }} minutos</p>
+      <p *ngIf="currentRecipe.coccion"> {{ currentRecipe.coccion }}</p>
+      <p *ngIf="currentRecipe.grados"> Hornear a  {{ currentRecipe.grados }}</p>
+      <p> Tiempo de cocción:  {{ currentRecipe.tiempoCoccion }} minutos</p>
+      <p>Tiempo de elaborado: {{ currentRecipe.tiempoElaboracion }}</p>
+      <p>Tiempo total: {{ currentRecipe.tiempoTotal }}</p>
     </mat-card-content>
 
     <mat-card-actions class="justify-content-between mt-5">
@@ -52,11 +50,11 @@
       <mat-icon>home</mat-icon>
       Home
       </button>
-      <button mat-button color="warn" (click)="onDeleteRecipe()"><mat-icon>cancel</mat-icon> Eliminar receta </button>
+      <button mat-button color="warn" (click)="onDeleteRecipe()" *ngIf="token"><mat-icon>cancel</mat-icon> Eliminar receta </button>
       <button mat-button
               mat-raised
               [routerLink]="[ '/recipes/edit', currentRecipe.id ]"
-      >
+              *ngIf="token">
       <mat-icon>edit</mat-icon>
       Editar
       </button>

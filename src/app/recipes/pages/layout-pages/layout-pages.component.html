@@ -1,7 +1,5 @@
-
-
-<mat-sidenav-container fullscreen >
-  <mat-sidenav #sidenav mode="push" [ngStyle]="{width:'259px'}" >
+<mat-sidenav-container fullscreen>
+  <mat-sidenav #sidenav mode="push" [ngStyle]="{width:'259px'}">
     <mat-toolbar>
       <span>Menu</span>
       <span class="spacer"></span>
@@ -13,11 +11,7 @@
 
     <!-- ITEMS DE DENTRO DEL MENU -->
     <mat-nav-list>
-      <mat-list-item
-        *ngFor="let item of sidebarItems"
-        [routerLink]="item.url"
-        (click)="sidenav.toggle()"
-      >
+      <mat-list-item *ngFor="let item of sidebarItems" [routerLink]="item.url" (click)="sidenav.toggle()">
         <mat-icon matListItemIcon> {{ item.icon }} </mat-icon>
         {{ item.label }}
       </mat-list-item>
@@ -25,10 +19,10 @@
 
   </mat-sidenav>
 
-  <p >
+  <p>
     <mat-toolbar color="accent">
       <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon"
-      (click)="sidenav.toggle()" *ngIf="token">
+        (click)="sidenav.toggle()" *ngIf="token">
         <mat-icon>menu</mat-icon>
       </button>
       <button mat-button (click)="goBack()">
@@ -36,43 +30,35 @@
       <span class="example-spacer"></span>
       <button mat-button (click)="onLogout()" class="mr-3" *ngIf="token">Logout</button>
       <button mat-button routerLink="/auth/login" *ngIf="!token">Login</button>
-      <span style="font-size: 16px;" *ngIf="token" > Bienvenid@ {{ user?.user }}</span>
+      <span style="font-size: 16px;" *ngIf="token"> Bienvenid@ {{ user?.user }}</span>
     </mat-toolbar>
   </p>
 
   <div class="container p-5" style="margin-top: 20px;">
     <router-outlet></router-outlet>
-    <hr>
-
-    <!-- <div class="container p-5">
-      <pre>
-        {{ user() | json }}
-      </pre>
-    </div> -->
-    <h4 class="m-3">Ayuda</h4>
-    <div class="grid m-3">
-      <div class="col-6">
-        <div class="mb-3"><a href="">Contacto</a></div>
-        <div class="mb-3"><a href="">Sobre nosotros</a></div>
-        <div class="mt-1 copyright"><strong> © Mi libro de recetas.</strong></div>
-      </div>
-      <div class="col-3">
-        <div class="mb-3"><a href="">Info legal</a></div>
-        <div><a  href="">Buzón de sugerencias</a></div>
-      </div>
-      <div class="col-3" style="text-align: end;">
-        <h5>Siguenos en las redes sociales</h5>
-        <a href="https://www.instagram.com" class="m-3"><img src="/assets/instagram.svg" alt="imagen"></a>
-        <a href="https://www.facebook.com" class="m-3"><img src="/assets/facebook.svg" alt="imagen"></a>
-        <a href="https://twitter.com" ><img src="/assets/twitter.svg" alt="imagen"></a>
+    <div class="m-5">
+      <hr>
+      <h4 class="m-3">Ayuda</h4>
+      <div class="grid m-3">
+        <div class="col-6">
+          <div class="mb-3"><a href="">Contacto</a></div>
+          <div class="mb-3"><a href="">Sobre nosotros</a></div>
+          <div class="mt-1 copyright"><strong> © Mi libro de recetas.</strong></div>
+        </div>
+        <div class="col-3">
+          <div class="mb-3"><a href="">Info legal</a></div>
+          <div><a href="">Buzón de sugerencias</a></div>
+        </div>
+        <div class="col-3" style="text-align: end;">
+          <h5>Siguenos en las redes sociales</h5>
+          <a href="https://www.instagram.com" class="m-3"><img src="/assets/instagram.svg" alt="imagen"></a>
+          <a href="https://www.facebook.com" class="m-3"><img src="/assets/facebook.svg" alt="imagen"></a>
+          <a href="https://twitter.com"><img src="/assets/twitter.svg" alt="imagen"></a>
 
 
+        </div>
       </div>
     </div>
-
   </div>
 
 </mat-sidenav-container>
-
-
-

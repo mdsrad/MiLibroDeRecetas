@@ -1,7 +1,7 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable, computed, inject, signal } from '@angular/core';
-import { Observable, catchError, map, of, tap, throwError } from 'rxjs';
-import { AuthStatus, CheckTokenresponse, LoginResponse, User } from '../interfaces';
+import { HttpClient } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
+import { Observable, catchError, map, of, tap } from 'rxjs';
+import { User } from '../interfaces';
 import { environments } from 'src/environments/environments';
 
 @Injectable({
@@ -12,7 +12,6 @@ export class AuthService {
 private http = inject( HttpClient );
 private readonly baseUrl: string = environments.baseUrl;
 private user?: User;
-private _currentUser = signal<User|null>(null)
 
 constructor() {}
 
@@ -35,6 +34,7 @@ checkAuthentication(): Observable<boolean>{
 }
 
 login( email: string, password:string ): Observable<User>{
+
   return this.http.get<User>(`${ this.baseUrl }/users/2`)
   .pipe(
     tap ( user =>  this.user = user),
@@ -47,14 +47,9 @@ logout(){
   localStorage.clear();
 }
 
-  // register(name: string, email: string, password: string): Observable<Boolean>{
-  //   const url = `${ this.baseUrl }/auth/register`;
-  //   const body = { name, email, password }
-  //   return this.http.post<LoginResponse>( url, body )
-  //   .pipe(
-  //     map( ({ user, token  }) => this.setAuthentication(user, token)),
-  //     catchError( err => throwError( () => err.error.message ))
-  //   );
-  // }
+register( recipe: User ): Observable<User>{
+  return this.http.post<User>(`${ this.baseUrl }/users`, recipe );
+}
+
 
 }

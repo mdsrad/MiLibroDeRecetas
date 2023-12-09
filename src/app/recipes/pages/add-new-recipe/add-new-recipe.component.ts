@@ -3,10 +3,9 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RecipesService } from '../../services/recipes.service';
 import { Recipe, Ingredientes } from '../../interfaces/recipes.interface_bk';
-import { filter, switchMap } from 'rxjs';
+import { switchMap } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component';
 
 
 @Component({
@@ -35,9 +34,7 @@ export class AddNewRecipeComponent implements OnInit{
   ]
 
   public todosIngredientes: Ingredientes [] = [];
-  public nombre: string = '';
-  public unidad: string = '';
-  public cantidad: string = '';
+  public miRecipe?: Recipe;
 
   public recipeForm = new FormGroup({
     id:               new FormControl<string>(''),
@@ -82,6 +79,7 @@ export class AddNewRecipeComponent implements OnInit{
       if ( !recipe ) return this.router.navigateByUrl('/');
 
       this.recipeForm.reset( recipe );
+      this.miRecipe = recipe;
       return;
     });
   }
@@ -96,39 +94,40 @@ export class AddNewRecipeComponent implements OnInit{
       return Ingredientes;
     }
 
-  goBack():void{
-    this.router.navigateByUrl('recipes/list')
-  }
+
+    goBack():void{
+      if ( this.router.url.includes('edit')) {
+        this.router.navigateByUrl(`recipes/${ this.currentRecipe.id}`);
+      }else{
+        this.router.navigateByUrl(`recipes/list`);
+      }
+    }
 
   onSubmit(){
 
     if( this.recipeForm.invalid ) return;
 
     if ( this.currentRecipe.id ){
+      for (const item of this.todosIngredientes){
+        if ( item ) {
+          this.currentRecipe.ingredientes = this.todosIngredientes;
+        }
+      }
+
       this.recipeService.updateRecipe( this.currentRecipe )
         .subscribe( recipe => {
           this.showSnackbar(`${ recipe?.title } grabada correctamente!!!`);
-          this.router.navigateByUrl('recipes/list');
+          this.router.navigateByUrl(`recipes/${ recipe.id }`);
         });
         return;
     }
 
-    for (let index = 0; index < this.todosIngredientes.length; index++) {
-      const element = this.todosIngredientes[index];
-
-      if (index < this.todosIngredientes.length -1){
-        this.nombre += element.nombre + ',';
-        this.unidad += element.unidadMedida + ',';
-        this.cantidad += element.cantidad + ',';
-      }else {
-        this.nombre += element.nombre;
-        this.unidad += element.unidadMedida;
-        this.cantidad += element.cantidad;
+    for (const item of this.todosIngredientes){
+      if ( item ) {
+        this.currentRecipe.ingredientes = this.todosIngredientes;
       }
     }
-    this.currentRecipe.ingrediente = this.nombre;
-    this.currentRecipe.unidadMedida = this.unidad;
-    this.currentRecipe.cantidad = this.cantidad;
+
     this.recipeService.addRecipe( this.currentRecipe )
       .subscribe( recipe => {
         this.showSnackbar(`${ recipe?.title } grabada correctamente!!!`);
@@ -138,10 +137,10 @@ export class AddNewRecipeComponent implements OnInit{
 
   addIngrediente(){
     if ( this.currentIngredients.nombre === '' || this.currentIngredients.unidadMedida === '' ) return;
-    if ( this.currentIngredients.nombre !== '' && this.currentIngredients.cantidad === 0  && this.currentIngredients.unidadMedida !== 'Al gusto') return;
-    if ( this.currentIngredients.nombre !== '' && this.currentIngredients.cantidad !== 0  && this.currentIngredients.unidadMedida === 'Al gusto') return;
+    if ( this.currentIngredients.nombre !== '' && this.currentIngredients.cantidad === '0'  && this.currentIngredients.unidadMedida !== 'Al gusto') return;
+    if ( this.currentIngredients.nombre !== '' && this.currentIngredients.cantidad !== '0'  && this.currentIngredients.unidadMedida === 'Al gusto') return;
 
-    if (this.currentIngredients.cantidad !== 0 ){
+    if (this.currentIngredients.cantidad !== '0' ){
     this.todosIngredientes.push({
       nombre: this.currentIngredients.nombre,
       unidadMedida: this.currentIngredients.unidadMedida,
@@ -150,10 +149,10 @@ export class AddNewRecipeComponent implements OnInit{
     else {
       this.todosIngredientes.push({
         nombre: this.currentIngredients.nombre,
+        cantidad: "",
         unidadMedida: this.currentIngredients.unidadMedida
       });
     }
-    //localStorage.setItem("Ingrediente", JSON.stringify(this.todosIngredientes));
   }
 
   eliminarIngrediente(nombre: string){

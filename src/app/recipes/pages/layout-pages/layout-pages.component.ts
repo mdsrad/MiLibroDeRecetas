@@ -31,10 +31,11 @@ export class LayoutPagesComponent {
   constructor( private activatedRoute: ActivatedRoute, ){}
 
   goBack():void{
-    this.router.navigateByUrl('recipes/list')
+    this.router.navigateByUrl('recipes/list');
   }
   onLogout(){
     this.authService.logout();
+    this.router.navigateByUrl('recipes/list')
   }
 
 }
