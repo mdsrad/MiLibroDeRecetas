@@ -1,1 +1,11 @@
-<p>list-page works!</p>
+<h1> Recetas </h1>
+<mat-divider></mat-divider>
+<app-search-recipe></app-search-recipe>
+<mat-divider></mat-divider>
+<div class="grid mb-8 pt-4">
+  <div
+    *ngFor="let recipe of recipes"
+    class="col-12 sm_col-4 md:col-3 xl:col-22">
+      <recipes-recipe-card [recipe]="recipe"></recipes-recipe-card>
+  </div>
+</div>

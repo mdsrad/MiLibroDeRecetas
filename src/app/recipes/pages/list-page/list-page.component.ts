@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Recipe } from '../../interfaces/recipes.interface_bk';
+import { RecipesService } from '../../services/recipes.service';
 
 @Component({
   selector: 'app-list-page',
@@ -6,6 +8,15 @@ import { Component } from '@angular/core';
   styles: [
   ]
 })
-export class ListPageComponent {
+export class ListPageComponent implements OnInit{
+  public recipes: Recipe[] = [];
+
+  constructor( private recipesService: RecipesService){
+
+  }
+  ngOnInit(): void {
+    this.recipesService.getRecipes()
+    .subscribe( recipes => this.recipes = recipes );
+  }
 
 }

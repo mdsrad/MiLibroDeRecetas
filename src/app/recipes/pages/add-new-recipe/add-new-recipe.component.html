@@ -1,1 +1,144 @@
-<p>add-new-recipe works!</p>
+<h1>{{ currentRecipe.id ? 'Modifica' : 'Añade'}} tu receta</h1>
+
+
+<mat-divider class="mb-2"></mat-divider>
+
+<!-- ESTA ES LA CAJA DE LA IZQUIERDA -->
+
+<form action="" [formGroup]="recipeForm">
+  <div class="grid">
+    <div class="col-12">
+      <mat-card>
+        <mat-card-content>
+          <div class="grid justify-content-between">
+            <button mat-button color="warn" (click)="goBack()"><mat-icon>cancel</mat-icon> Cancelar y salir </button>
+            <button mat-button color="primary" (click)="onSubmit()"><mat-icon>save</mat-icon> Guardar receta!!</button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  <div class="grid">
+    <div class="col-12 sm:col-6">
+      <mat-card>
+        <mat-card-content>
+
+          <div class="grid">
+            <!--  Titulo  -->
+            <mat-form-field class="col-12">
+              <mat-label>Título de tu receta</mat-label>
+              <input matInput type="text" required formControlName="title">
+            </mat-form-field>
+          </div>
+
+          <div class="grid p-2">
+            <mat-label>¿Cómo es tu receta?</mat-label>
+          </div>
+          <div class="grid">
+            <!-- Tipo -->
+            <mat-radio-group formControlName="tipo">
+              <mat-radio-button value="dulce">Dulce</mat-radio-button>
+              <mat-radio-button value="salada">Salada</mat-radio-button>
+            </mat-radio-group>
+          </div>
+
+          <div class="grid mt-2">
+            <!--  Tiempo de elaborado  -->
+            <mat-form-field class="col-6">
+              <mat-label>Minutos elaboración</mat-label>
+              <input matInput type="number" required formControlName="tiempoElaboracion">
+            </mat-form-field>
+            <!--  Tiempo de elaborado  -->
+            <mat-form-field class="col-6">
+              <mat-label>Minutos totales de la receta</mat-label>
+              <input matInput type="number" required formControlName="tiempoTotal">
+            </mat-form-field>
+          </div>
+          <div class="grid mt-2">
+            <mat-form-field class="col-12">
+              <mat-label>Preparación:</mat-label>
+              <textarea matInput required formControlName="preparacion"></textarea>
+            </mat-form-field>
+          </div>
+
+          <div class="grid p-2 mb-2">
+            <mat-label>Si lleva horno: </mat-label>
+          </div>
+          <div class="grid">
+            <mat-form-field class="col-5">
+              <mat-label>Grados</mat-label>
+              <mat-select value="selected" formControlName="grados">
+                <mat-option>None</mat-option>
+                <mat-option *ngFor="let med of grados" [value]="med.desc"> {{ med.desc }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <!--  Tiempo de elaborado  -->
+            <mat-form-field class="col-7">
+              <mat-label>Tiempo de cocción en minutos</mat-label>
+              <input matInput type="number" formControlName="tiempoCoccion">
+            </mat-form-field>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+
+    <!-- ESTA ES LA CAJA DE LA DERECHA -->
+
+
+    <div class="col-12 sm:col-6">
+      <mat-card style="height: 600px;">
+        <mat-card-content>
+          <div class="grid p-2 mb-2">
+            <mat-label>Ingredientes: </mat-label>
+          </div>
+          <div class="grid">
+            <mat-form-field class="col-4">
+              <mat-label>Ingrediente...</mat-label>
+              <input matInput type="text" formControlName="nombre" #resetnombre>
+            </mat-form-field>
+            <mat-form-field class="col-4">
+              <mat-label>cantidad</mat-label>
+              <input matInput type="number" formControlName="cantidad" #resetCantidad>
+            </mat-form-field>
+            <mat-form-field class="col-4">
+              <mat-label>Unidad de medida</mat-label>
+              <mat-select value="selected" formControlName="unidadMedida" #resetUnidad>
+                <mat-option>None</mat-option>
+                <mat-option *ngFor="let medida of medidas; let i = index" [value]="medida.id">{{ medida.desc }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="grid p-2">
+            <a mat-button color="primary" (click)="addIngrediente()"
+              (click) = "resetnombre.value = ''"
+              (click) = "resetCantidad.valueAsNumber  = 0"
+              (click) = "resetUnidad.value = ''"><mat-icon>add</mat-icon> Añadir ingrediente </a>
+          </div>
+          <div class="grid p-4">
+            <mat-chip *ngFor="let ingr of todosIngredientes"
+                (removed)="eliminarIngrediente(ingr.nombre)" class="m-2">
+                  {{ ingr.nombre }}, {{ ingr.cantidad }} {{ ingr.unidadMedida }}
+              <button matChipRemove>
+                <mat-icon style="color: red;">cancel</mat-icon>
+              </button>
+            </mat-chip>
+          </div>
+          <mat-form-field class="col-12">
+            <mat-label>Copia la url de tu imagen aquí...</mat-label>
+            <input matInput type="text" formControlName="alt_image">
+          </mat-form-field>
+          <img [src]="currentRecipe | recipeImage " alt="imagen del héroe" matCardImage width="250px">
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</form>
+
+<!-- <pre>
+  {{ currentRecipe |json }}
+</pre>
+
+<pre>
+  {{ todosIngredientes |json }}
+</pre> -->

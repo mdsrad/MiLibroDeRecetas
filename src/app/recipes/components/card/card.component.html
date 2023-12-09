@@ -1,0 +1,26 @@
+
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-title> {{ recipe.title }}</mat-card-title>
+    <mat-card-subtitle>
+      {{ recipe.tipo }}
+      <br>
+      Tiempo de elaborado: {{ recipe.tiempoElaboracion }}
+      <br>
+      Tiempo total: {{ recipe.tiempoTotal }}
+    </mat-card-subtitle>
+  </mat-card-header>
+
+<img mat-card-image [src]="recipe | recipeImage" [alt]="recipe.title" class="mt-3 mb-3" height="200px">
+
+<mat-card-actions>
+  <button mat-button
+          mat-raised
+          [routerLink]="[ '/recipes', recipe.id ]"
+  >
+  <mat-icon>more_horiz</mat-icon>
+  Ver receta completa
+  </button>
+</mat-card-actions>
+</mat-card>
