@@ -1,18 +1,4 @@
 {
-  "users": [
-    {
-      "id": "1",
-      "user": "Fernando",
-      "email": "fernando@gmail.com",
-      "password": "123456"
-    },
-    {
-      "id": "2",
-      "user": "Marta",
-      "email": "marta@gmail.com",
-      "password": "123456"
-    }
-  ],
   "recipes": [
     {
       "id": "TartaQueso",
